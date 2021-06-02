@@ -1,4 +1,5 @@
 import os
+from functools import wraps
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for)
@@ -16,6 +17,16 @@ app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.secret_key = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not "user" in session:
+            flash("You must log in to view this page")
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 @app.route("/")
@@ -87,6 +98,7 @@ def login():
 
 
 @app.route("/profile/<username>", methods=["GET", "POST"])
+@login_required
 def profile(username):
     # grab the session user's username from db
     username = mongo.db.users.find_one(
@@ -99,6 +111,7 @@ def profile(username):
 
 
 @app.route("/logout")
+@login_required
 def logout():
     # remove user from session cookies
     flash("You have been logged out")
@@ -107,6 +120,7 @@ def logout():
 
 
 @app.route("/add_task", methods=["GET", "POST"])
+@login_required
 def add_task():
     if request.method == "POST":
         is_urgent = "on" if request.form.get("is_urgent") else "off"
@@ -127,6 +141,7 @@ def add_task():
 
 
 @app.route("/edit_task/<task_id>", methods=["GET", "POST"])
+@login_required
 def edit_task(task_id):
     if request.method == "POST":
         is_urgent = "on" if request.form.get("is_urgent") else "off"
@@ -147,6 +162,7 @@ def edit_task(task_id):
 
 
 @app.route("/delete_task/<task_id>")
+@login_required
 def delete_task(task_id):
     mongo.db.tasks.remove({"_id": ObjectId(task_id)})
     flash("Task Successfully Deleted")
@@ -154,12 +170,14 @@ def delete_task(task_id):
 
 
 @app.route("/get_categories")
+@login_required
 def get_categories():
     categories = list(mongo.db.categories.find().sort("category_name", 1))
     return render_template("categories.html", categories=categories)
 
 
 @app.route("/add_category", methods=["GET", "POST"])
+@login_required
 def add_category():
     if request.method == "POST":
         category = {
@@ -173,6 +191,7 @@ def add_category():
 
 
 @app.route("/edit_category/<category_id>", methods=["GET", "POST"])
+@login_required
 def edit_category(category_id):
     if request.method == "POST":
         submit = {
@@ -187,6 +206,7 @@ def edit_category(category_id):
 
 
 @app.route("/delete_category/<category_id>")
+@login_required
 def delete_category(category_id):
     mongo.db.categories.remove({"_id": ObjectId(category_id)})
     flash("Category Successfully Deleted")
