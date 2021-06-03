@@ -105,9 +105,21 @@ def profile(username):
         {"username": session["user"]})["username"]
 
     if session["user"]:
-        return render_template("profile.html", username=username)
+        return render_template("profile.html", username=username, user="")
 
     return redirect(url_for("login"))
+
+
+# @app.route("/profile/<username>", methods=["GET", "POST"])
+# @login_required
+# def profile(username):
+#     if "user" in session:
+#         # grab the session user's username from db
+#         user = mongo.db.users.find_one({"username": username})
+#         tasks = list(mongo.db.tasks.find({"created_by": username}))
+#         return render_template("profile.html", user=user, tasks=tasks)
+
+#     return redirect(url_for("login"))
 
 
 @app.route("/logout")
