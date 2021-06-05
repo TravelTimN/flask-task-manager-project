@@ -1,0 +1,15 @@
+<li><a href="{{ url_for('get_tasks') }}">Home</a></li>
+{% if session.user %}
+    <!-- user is logged-in -->
+    <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
+    <li><a href="{{ url_for('add_task') }}">New Task</a></li>
+    {% if session.user|lower == "admin"|lower %}
+        <!-- user is "admin" -->
+        <li><a href="{{ url_for('get_categories') }}">Manage Categories</a></li>
+    {% endif %}
+    <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+{% else %}
+    <!-- user is logged-out -->
+    <li><a href="{{ url_for('login') }}">Log In</a></li>
+    <li><a href="{{ url_for('register') }}">Register</a></li>
+{% endif %}

@@ -3,6 +3,7 @@
 */
 
 $(document).ready(function () {
+    $(".modal").modal();
     $(".sidenav").sidenav({edge: "right"});
     $(".collapsible").collapsible();
     $(".tooltipped").tooltip();
@@ -53,17 +54,19 @@ $(document).ready(function () {
     vanilla JavaScript for MaterializeCSS initialization
 */
 
-// document.addEventListener('DOMContentLoaded', function () {
+// document.addEventListener("DOMContentLoaded", function () {
+//     let modals = document.querySelectorAll(".modal");
+//     M.Modal.init(modals);
 //     let sidenavs = document.querySelectorAll(".sidenav");
-//     let sidenavsInstance = M.Sidenav.init(sidenavs, {edge: "right"});
+//     M.Sidenav.init(sidenavs, {edge: "right"});
 //     let collapsibles = document.querySelectorAll(".collapsible");
-//     let collapsiblesInstance = M.Collapsible.init(collapsibles);
+//     M.Collapsible.init(collapsibles);
 //     let tooltips = document.querySelectorAll(".tooltipped");
-//     let tooltipsInstance = M.Tooltip.init(tooltips);
+//     M.Tooltip.init(tooltips);
 //     let selects = document.querySelectorAll("select");
-//     let selectsInstance = M.FormSelect.init(selects);
+//     M.FormSelect.init(selects);
 //     let datepickers = document.querySelectorAll(".datepicker");
-//     let datepickersInstance = M.Datepicker.init(datepickers, {
+//     M.Datepicker.init(datepickers, {
 //         format: "dd mmmm, yyyy",
 //         yearRange: 3,
 //         showClearBtn: true,

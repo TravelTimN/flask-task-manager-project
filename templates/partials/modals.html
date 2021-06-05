@@ -1,0 +1,27 @@
+<!-- modal: confirm task deletion -->
+{% if task %}
+<div id="modal-{{ task._id }}" class="modal black white-text">
+    <div class="modal-content">
+        <h4>Are you sure you want to delete this task?</h4>
+        <p>This action cannot be undone.</p>
+    </div>
+    <div class="modal-footer black">
+        <a class="btn red modal-close">No</a>
+        <a href="{{ url_for('delete_task', task_id=task._id) }}" class="btn green accent-4">Yes</a>
+    </div>
+</div>
+{% endif %}
+
+<!-- modal: confirm category deletion -->
+{% if category %}
+<div id="modal-{{ category._id }}" class="modal black white-text">
+    <div class="modal-content">
+        <h4>Are you sure you want to delete this category?</h4>
+        <p>This action cannot be undone.</p>
+    </div>
+    <div class="modal-footer black">
+        <a class="btn red modal-close">No</a>
+        <a href="{{ url_for('delete_category', category_id=category._id) }}" class="btn green accent-4">Yes</a>
+    </div>
+</div>
+{% endif %}
